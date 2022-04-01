@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { RentCarModule } from './modules/RentCarModule';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [
+    RentCarModule
+  ]
 })
-export class AppModule {}
+export class AppModule { }
