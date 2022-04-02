@@ -20,4 +20,36 @@ export class RentCarRepository {
 
         return cars.docs.map(c => c.data() as Car)
     }
+
+    async getCarByCode(code: string): Promise<Car> {
+        const docRef = this.firebaseDb.collection(this.nameCollection)
+        .where("code", "==", code)
+
+        const car = await docRef.get()
+
+        if (car.empty) {
+            return null
+        }
+        return car.docs[0].data() as Car
+    }
+
+    async rentOrGiveBackCar(car: Car): Promise<any> {
+        const docRef = await this.firebaseDb.collection(this.nameCollection)
+
+        docRef.doc(car.code).update(JSON.parse(JSON.stringify(car)))
+    }
+
+    async listAvailable(): Promise<Car[]> {
+        const docRef = this.firebaseDb.collection(this.nameCollection)
+        .where("available", "==", true)
+
+        const cars = await docRef.get()
+
+        if (cars.empty) {
+            return null
+        }
+
+        return cars.docs.map(c => c.data() as Car)
+    }
+
 }

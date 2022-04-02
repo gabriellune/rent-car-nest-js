@@ -4,7 +4,7 @@ import { GiveBackCarDto } from "src/dtos/UnrentCarDto";
 import { Car } from "src/models/Car";
 import { RentCarService } from "src/services/RentCarService";
 
-@Controller('api/v1/rent-car')
+@Controller('rent-car')
 export class RentCarController {
 
     constructor(
@@ -16,8 +16,8 @@ export class RentCarController {
         return this.service.listAll()
     }
 
-    @Post()
-    async rentCar(@Body() payload: RentCarDto): Promise<void> {
+    @Patch()
+    async rentCar(@Body() payload: RentCarDto): Promise<string> {
         return this.service.rentCar(payload)
     }
 
@@ -27,7 +27,7 @@ export class RentCarController {
     }
 
     @Patch('give-back')
-    async giveBackCar(@Body() payload: GiveBackCarDto): Promise<void> {
+    async giveBackCar(@Body() payload: GiveBackCarDto): Promise<string> {
         return this.service.giveBackCar(payload)
     }
 }
