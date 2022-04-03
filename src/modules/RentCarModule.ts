@@ -5,11 +5,11 @@ import { RentCarService } from 'src/services/RentCarService';
 
 @Module({
   controllers: [
-      RentCarController
+    RentCarController
   ],
   providers: [
-      RentCarService,
-      RentCarRepository
+    RentCarService,
+    RentCarRepository
   ],
 })
-export class RentCarModule {}
+export class RentCarModule { }
