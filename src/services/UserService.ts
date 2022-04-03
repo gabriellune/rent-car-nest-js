@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { UserDto } from "src/dtos/UserDto";
+import { User } from "src/models/User";
 import { UserRepository } from "src/repositories/UserRepository";
 import { CryptoService } from "./CryptoService";
 
@@ -28,5 +29,15 @@ export class UserService {
         catch (err) {
             throw new BadRequestException(err)
         }
+    }
+
+    async findByEmail(email: string): Promise<User> {
+        const result = await this.repository.findByEmail(email)
+
+        if (!result) {
+            throw new BadRequestException('No user found!')
+        }
+
+        return result
     }
 }
