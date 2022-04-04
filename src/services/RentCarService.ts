@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { CarDto } from "src/dtos/CarDto";
 import { RentCarDto } from "src/dtos/RentCarDto";
-import { GiveBackCarDto } from "src/dtos/UnrentCarDto";
 import { Car } from "src/models/Car";
 import { RentCarRepository } from "src/repositories/RentCarRepository";
 import { decodeAuth } from "src/utils/DecodeAuth";

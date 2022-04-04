@@ -28,9 +28,9 @@ export class AuthenticationService {
     async validateUser(email: string, password: string): Promise<User> {
         const user = await this.userService.findByEmail(email)
 
-        const encryptedPassword = this.cryptoService.encrypt(password)
+        const decryptedPassword = this.cryptoService.decrypt(user.password)
 
-        if (user && user.password === encryptedPassword) {
+        if (user && decryptedPassword === password) {
             const { password, ...result } = user
             return result as User
         }
@@ -38,7 +38,7 @@ export class AuthenticationService {
         return null
     }
 
-    async login(payload: LoginDto): Promise<Object> {
+    async login(payload: any): Promise<Object> {
         const data = { email: payload.email }
         return {
             access_token: this.jwtService.sign(data)
