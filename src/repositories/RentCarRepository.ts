@@ -58,7 +58,7 @@ export class RentCarRepository {
 
     async checkUserHasRentedCar(email: string): Promise<Car> {
         const docRef = this.firebaseDb.collection(this.nameCollection)
-        .where("rentBy", "==", email)
+        .where("rentedBy", "==", email)
 
         const car = await docRef.get()
 
