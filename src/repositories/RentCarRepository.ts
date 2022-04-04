@@ -21,9 +21,9 @@ export class RentCarRepository {
         return cars.docs.map(c => c.data() as Car)
     }
 
-    async getCarByCode(code: string): Promise<Car> {
+    async getCarByCode(registerCode: number): Promise<Car> {
         const docRef = this.firebaseDb.collection(this.nameCollection)
-        .where("code", "==", code)
+        .where("registerCode", "==", registerCode)
 
         const car = await docRef.get()
 
@@ -36,7 +36,7 @@ export class RentCarRepository {
     async rentOrGiveBackCar(car: Car): Promise<any> {
         const docRef = await this.firebaseDb.collection(this.nameCollection)
 
-        docRef.doc(car.code).update(JSON.parse(JSON.stringify(car)))
+        docRef.doc(car.registerCode.toString()).update(JSON.parse(JSON.stringify(car)))
     }
 
     async listAvailable(): Promise<Car[]> {
@@ -52,4 +52,19 @@ export class RentCarRepository {
         return cars.docs.map(c => c.data() as Car)
     }
 
+    async createCar(payload: Car): Promise<void> {
+        await this.firebaseDb.collection(this.nameCollection).doc(payload.registerCode.toString()).set(payload)
+    }
+
+    async checkUserHasRentedCar(email: string): Promise<Car> {
+        const docRef = this.firebaseDb.collection(this.nameCollection)
+        .where("rentBy", "==", email)
+
+        const car = await docRef.get()
+
+        if (car.empty) {
+            return null
+        }
+        return car.docs[0].data() as Car
+    }
 }

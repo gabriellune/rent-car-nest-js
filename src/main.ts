@@ -1,6 +1,5 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { Environment } from 'roit-environment';
 import { AppModule } from './AppModule';
 
 async function bootstrap() {
@@ -10,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }))
-  await app.listen(Environment.getProperty('port'))
-  Logger.debug(`Listening on http://localhost:${Environment.getProperty('port')}/`)
+  await app.listen(3000)
+  Logger.debug('Listening on http://localhost:3000/')
 }
 bootstrap();

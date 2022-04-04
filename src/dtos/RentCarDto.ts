@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber } from 'class-validator'
 
 export class RentCarDto {
 
-    @IsString()
-    @IsNotEmpty({ message: () => 'Car code is mandatory!' })
-    code: string
+    @IsNumber()
+    @IsNotEmpty({ message: () => 'Car register code is mandatory!' })
+    registerCode: number
 }

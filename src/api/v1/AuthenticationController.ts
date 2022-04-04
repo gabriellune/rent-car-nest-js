@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { AuthenticationDto } from "src/dtos/AuthenticationDto";
 import { LoginDto } from "src/dtos/LoginDto";
 import { AuthenticationService } from "src/services/AuthenticationService";
-import { LocalAuthGuard } from "src/strategy/LocalAuthGuard";
+import { LocalAuthGuard } from "src/shared/LocalAuthGuard";
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -13,13 +13,13 @@ export class AuthenticationController {
     ) { }
 
     @Post('create-auth')
-    async create(@Body() payload: AuthenticationDto): Promise<any> {
+    async create(@Body() payload: AuthenticationDto): Promise<string> {
         return this.service.create(payload)
     }
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Request() payload: LoginDto): Promise<any> {
-        return 'success'
+    async login(@Request() req: any): Promise<Object> {
+        return this.service.login(req.user)
     }
 }

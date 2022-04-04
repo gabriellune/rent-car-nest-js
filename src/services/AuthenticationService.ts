@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { AuthenticationDto } from 'src/dtos/AuthenticationDto';
+import { LoginDto } from 'src/dtos/LoginDto';
 import { User } from 'src/models/User';
 import { CryptoService } from './CryptoService';
 import { UserService } from './UserService';
@@ -8,18 +10,24 @@ import { UserService } from './UserService';
 export class AuthenticationService {
     constructor(
         private readonly userService: UserService,
-        private readonly cryptoService: CryptoService
+        private readonly cryptoService: CryptoService,
+        private readonly jwtService: JwtService
     ) { }
 
-    async create(payload: AuthenticationDto): Promise<any> {
-        const result = await this.userService.create(payload)
+    async create(payload: AuthenticationDto): Promise<string> {
+        try {
+            await this.userService.create(payload)
 
-        return result
+            return 'User created successfully!'
+        }
+        catch (err) {
+            throw new BadRequestException(err)
+        }
     }
 
     async validateUser(email: string, password: string): Promise<User> {
         const user = await this.userService.findByEmail(email)
-        
+
         const encryptedPassword = this.cryptoService.encrypt(password)
 
         if (user && user.password === encryptedPassword) {
@@ -28,6 +36,13 @@ export class AuthenticationService {
         }
 
         return null
+    }
+
+    async login(payload: LoginDto): Promise<Object> {
+        const data = { email: payload.email }
+        return {
+            access_token: this.jwtService.sign(data)
+        }
     }
 
 }

@@ -1,8 +1,7 @@
-import * as admin from "firebase-admin"
 import { Firestore } from "@google-cloud/firestore";
-import { Environment } from "roit-environment"
+import * as admin from "firebase-admin";
 
-const credential = require('../../../' + Environment.getProperty('credential'))
+const credential = require('../../../credential.json')
 
 export class FirestoreInstance {
 

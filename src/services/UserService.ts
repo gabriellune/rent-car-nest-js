@@ -12,7 +12,7 @@ export class UserService {
         private readonly repository: UserRepository
     ) { }
 
-    async create(payload: UserDto): Promise<any> {
+    async create(payload: UserDto): Promise<void> {
         const data = payload
 
         const existentUser = await this.repository.findByEmail(data.email)

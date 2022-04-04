@@ -2,5 +2,6 @@ export class Car {
 
   name: string
   available: boolean
-  code: string
+  registerCode: number
+  rentedBy: string | null
 }
